@@ -12,7 +12,7 @@ const Navigation = () => {
                     exact={exact}
                     className={({ isActive, isPending, isTransitioning }) =>
                         [
-                            "text-white text-3xl font-bold mb-2",
+                            "text-white text-3xl font-bold mb-2 rounded-3xl p-4 hover:bg-red-500",
                             isPending ? "pending" : "",
                             isActive ? "underline" : "",
                             isTransitioning ? "transitioning" : "",

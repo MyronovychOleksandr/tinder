@@ -14,3 +14,6 @@ export const AGE_PLACEHOLDER = "Input age"
 export const MIN_AGE = 18
 
 export const GENDER_KEY = "gender"
+
+export const TAG_NAME = "tag"
+export const TAG_PLACEHOLDER = "Select a tag"

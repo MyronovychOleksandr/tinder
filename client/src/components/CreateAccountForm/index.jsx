@@ -8,11 +8,18 @@ import {
     FIRST_NAME_LABEL,
     FIRST_NAME_PLACEHOLDER, GENDER_KEY,
     SECOND_NAME_KEY,
-    SECOND_NAME_LABEL, SECOND_NAME_PLACEHOLDER
+    SECOND_NAME_LABEL, SECOND_NAME_PLACEHOLDER, TAG_NAME, TAG_PLACEHOLDER
 } from "../../constants/createAccount";
 import FormikRadioGroup from "../formik/FormikRadioGroup";
 import { Button } from '@mui/material';
 import ImageUploader from "../ImageUploader";
+import FormikSelect from "../formik/FormikSelect";
+
+const genderOptions = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+    { label: 'Other', value: 'other' },
+];
 
 const CreateAccountForm = () => {
 
@@ -49,6 +56,11 @@ const CreateAccountForm = () => {
                     />
                     <FormikRadioGroup
                         name={GENDER_KEY}
+                        options={genderOptions}
+                    />
+                    <FormikSelect
+                        name={TAG_NAME}
+                        placeholder={TAG_PLACEHOLDER}
                     />
                     <div className={"flex justify-end"}>
                         <Button variant="contained" type={"submit"}>

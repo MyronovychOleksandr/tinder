@@ -4,7 +4,7 @@ import UploadedImageContainer from "../UploadedImageContainer";
 
 const ImageUploader = () => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
-    console.log("vv uploadedFiles ", uploadedFiles)
+
     const handleDrop = (acceptedFiles) => {
         setUploadedFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
     };
@@ -14,7 +14,7 @@ const ImageUploader = () => {
             <Dropzone onDrop={handleDrop}/>
             <div>
                 <h4>Завантажені фотографії:</h4>
-                <div className="flex flex-wrap h-32">
+                <div className="flex flex-wrap">
                     {uploadedFiles.map((file, index) => (
                         <UploadedImageContainer
                             img={URL.createObjectURL(file)}

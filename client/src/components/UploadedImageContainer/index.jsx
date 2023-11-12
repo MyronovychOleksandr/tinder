@@ -3,7 +3,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 const UploadedImageContainer = ({img, alt}) => {
     return (
-        <div className={"relative w-32 h-32"}>
+        <div className={"relative"}>
             <img
                 src={img}
                 alt={alt}

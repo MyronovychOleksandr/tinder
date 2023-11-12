@@ -3,14 +3,8 @@ import RadioGroup from "../../base/RadioGroup";
 import {useField} from "formik";
 import FormikErrorMessage from "../FormikErrorMessage";
 
-const genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Other', value: 'other' },
-];
-
-const FormikRadioGroup = ({name, type}) => {
-    const [{value}, meta, {setValue, setTouched}] = useField({ name, type });
+const FormikRadioGroup = ({name, type, options}) => {
+    const [{value}, meta, {setValue}] = useField({ name, type });
     const isError = meta.error && meta.touched;
 
     const handleGenderChange = (value) => {
@@ -20,7 +14,7 @@ const FormikRadioGroup = ({name, type}) => {
     return (
         <div>
             <RadioGroup
-                options={genderOptions}
+                options={options}
                 selectedOption={value}
                 onChange={handleGenderChange}
             />

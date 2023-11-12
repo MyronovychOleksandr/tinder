@@ -13,3 +13,5 @@ export const AGE = yup.number()
     .min(MIN_AGE)
 
 export const GENDER = yup.string()
+
+export const TAG = yup.array().of(yup.string()).min(1)
