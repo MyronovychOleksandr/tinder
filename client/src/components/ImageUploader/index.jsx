@@ -4,7 +4,7 @@ import UploadedImageContainer from "../UploadedImageContainer";
 
 const ImageUploader = () => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
-
+    console.log("vv uploadedFiles ", uploadedFiles)
     const handleDrop = (acceptedFiles) => {
         setUploadedFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
     };
