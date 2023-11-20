@@ -11,14 +11,15 @@ import {
     SECOND_NAME_LABEL, SECOND_NAME_PLACEHOLDER, TAG_NAME, TAG_PLACEHOLDER
 } from "../../constants/createAccount";
 import FormikRadioGroup from "../formik/FormikRadioGroup";
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 import ImageUploader from "../ImageUploader";
 import FormikSelect from "../formik/FormikSelect";
+import ImageProcessing from "../base/ImageProcessing";
 
 const genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Other', value: 'other' },
+    {label: 'Male', value: 'male'},
+    {label: 'Female', value: 'female'},
+    {label: 'Other', value: 'other'},
 ];
 
 const CreateAccountForm = () => {
@@ -67,6 +68,8 @@ const CreateAccountForm = () => {
                             Submit
                         </Button>
                     </div>
+
+                    <ImageProcessing/>
                 </form>)
             }}
 

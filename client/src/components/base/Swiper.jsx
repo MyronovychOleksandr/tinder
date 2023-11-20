@@ -11,7 +11,6 @@ const ImageSwiper = ({ images }) => {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-
     return (
         <Slider {...settings}>
             {images.map((image, index) => (
