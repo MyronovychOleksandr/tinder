@@ -18,5 +18,11 @@ export const routes = [
         exact: true,
         label: "Create Account",
         component: lazy(() => import("./views/CreateAccount.jsx"))
+    },
+    {
+        path: "/edit-account",
+        exact: true,
+        label: "Edit Account",
+        component: lazy(() => import("./views/EditAccount.jsx"))
     }
 ]

@@ -4,9 +4,13 @@ export const FIRST_NAME_PLACEHOLDER = "Input first name"
 export const FIRST_NAME_MIN_LENGTH = 2
 export const FIRST_NAME_MAX_LENGTH = 35
 
-export const SECOND_NAME_KEY = "secondName"
-export const SECOND_NAME_LABEL = "Second name"
-export const SECOND_NAME_PLACEHOLDER = "Input second name"
+export const LAST_NAME_KEY = "lastName"
+export const LAST_NAME_LABEL = "Last name"
+export const LAST_NAME_PLACEHOLDER = "Input last name"
+
+export const EMAIL_KEY = "email"
+export const EMAIL_LABEL = "Email"
+export const EMAIL_PLACEHOLDER = "Input email"
 
 export const AGE_KEY = "age"
 export const AGE_LABEL = "Age"
@@ -15,5 +19,5 @@ export const MIN_AGE = 18
 
 export const GENDER_KEY = "gender"
 
-export const TAG_NAME = "tag"
-export const TAG_PLACEHOLDER = "Select a tag"
+export const TAG_NAME = "tags"
+export const TAG_PLACEHOLDER = "Select a tags"

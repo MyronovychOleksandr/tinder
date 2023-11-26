@@ -5,13 +5,20 @@ export const FIRST_NAME = yup.string()
     .min(FIRST_NAME_MIN_LENGTH)
     .max(FIRST_NAME_MAX_LENGTH)
 
-export const SECOND_NAME = yup.string()
+export const LAST_NAME = yup.string()
     .min(FIRST_NAME_MIN_LENGTH)
     .max(FIRST_NAME_MAX_LENGTH)
+
+export const EMAIL = yup.string().email('Wrong format of email')
 
 export const AGE = yup.number()
     .min(MIN_AGE)
 
 export const GENDER = yup.string()
 
-export const TAG = yup.array().of(yup.string()).min(1)
+const tagSchema = yup.object({
+    label: yup.string().required("Label is required"),
+    value: yup.string().required("Value is required"),
+});
+
+export const TAG =  yup.array().of(tagSchema);

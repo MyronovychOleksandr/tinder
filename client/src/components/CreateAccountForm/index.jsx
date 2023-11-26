@@ -3,12 +3,12 @@ import {Formik} from "formik";
 import FormikTextInput from "../formik/FormikTextInput";
 import {createAccountInitialValues, createAccountValidationSchema} from "../../validators/createAccount/userForm";
 import {
-    AGE_KEY, AGE_LABEL, AGE_PLACEHOLDER,
+    AGE_KEY, AGE_LABEL, AGE_PLACEHOLDER, EMAIL_KEY, EMAIL_LABEL, EMAIL_PLACEHOLDER,
     FIRST_NAME_KEY,
     FIRST_NAME_LABEL,
     FIRST_NAME_PLACEHOLDER, GENDER_KEY,
-    SECOND_NAME_KEY,
-    SECOND_NAME_LABEL, SECOND_NAME_PLACEHOLDER, TAG_NAME, TAG_PLACEHOLDER
+    LAST_NAME_KEY,
+    LAST_NAME_LABEL, LAST_NAME_PLACEHOLDER, TAG_NAME, TAG_PLACEHOLDER
 } from "../../constants/createAccount";
 import FormikRadioGroup from "../formik/FormikRadioGroup";
 import {Button} from '@mui/material';
@@ -22,31 +22,37 @@ const genderOptions = [
     {label: 'Other', value: 'other'},
 ];
 
-const CreateAccountForm = () => {
+const CreateAccountForm = ({initialValues, onSubmit}) => {
 
-    const handleValidateSubmit = () => {
-
+    const handleValidateSubmit = (values) => {
+        onSubmit(values)
     }
 
     return (
         <Formik
-            initialValues={createAccountInitialValues}
+            initialValues={initialValues}
             validationSchema={createAccountValidationSchema}
             onSubmit={handleValidateSubmit}
             validateOnMount
+            enableReinitialize
         >
             {({errors, touched, handleSubmit, setFieldValue, values, isValid, ...p}) => {
                 return (<form onSubmit={handleSubmit}>
-                    <ImageUploader/>
+                    {/*<ImageUploader/>*/}
+                    <FormikTextInput
+                        name={EMAIL_KEY}
+                        label={EMAIL_LABEL}
+                        placeholder={EMAIL_PLACEHOLDER}
+                    />
                     <FormikTextInput
                         name={FIRST_NAME_KEY}
                         label={FIRST_NAME_LABEL}
                         placeholder={FIRST_NAME_PLACEHOLDER}
                     />
                     <FormikTextInput
-                        name={SECOND_NAME_KEY}
-                        label={SECOND_NAME_LABEL}
-                        placeholder={SECOND_NAME_PLACEHOLDER}
+                        name={LAST_NAME_KEY}
+                        label={LAST_NAME_LABEL}
+                        placeholder={LAST_NAME_PLACEHOLDER}
                     />
 
                     <FormikTextInput
@@ -69,7 +75,7 @@ const CreateAccountForm = () => {
                         </Button>
                     </div>
 
-                    <ImageProcessing/>
+                    {/*<ImageProcessing/>*/}
                 </form>)
             }}
 
