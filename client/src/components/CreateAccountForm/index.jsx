@@ -6,7 +6,7 @@ import {
     AGE_KEY, AGE_LABEL, AGE_PLACEHOLDER, EMAIL_KEY, EMAIL_LABEL, EMAIL_PLACEHOLDER,
     FIRST_NAME_KEY,
     FIRST_NAME_LABEL,
-    FIRST_NAME_PLACEHOLDER, GENDER_KEY,
+    FIRST_NAME_PLACEHOLDER, GENDER_KEY, GENDER_OPTIONS,
     LAST_NAME_KEY,
     LAST_NAME_LABEL, LAST_NAME_PLACEHOLDER, TAG_NAME, TAG_PLACEHOLDER
 } from "../../constants/createAccount";
@@ -15,12 +15,6 @@ import {Button} from '@mui/material';
 import ImageUploader from "../ImageUploader";
 import FormikSelect from "../formik/FormikSelect";
 import ImageProcessing from "../base/ImageProcessing";
-
-const genderOptions = [
-    {label: 'Male', value: 'male'},
-    {label: 'Female', value: 'female'},
-    {label: 'Other', value: 'other'},
-];
 
 const CreateAccountForm = ({initialValues, onSubmit}) => {
 
@@ -63,7 +57,7 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
                     />
                     <FormikRadioGroup
                         name={GENDER_KEY}
-                        options={genderOptions}
+                        options={GENDER_OPTIONS}
                     />
                     <FormikSelect
                         name={TAG_NAME}

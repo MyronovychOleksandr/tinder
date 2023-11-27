@@ -9,7 +9,7 @@ const Navigation = () => {
                 return <NavLink
                     key={path}
                     to={path}
-                    exact={exact}
+                    exact={exact?.toString()}
                     className={({ isActive, isPending, isTransitioning }) =>
                         [
                             "text-white text-3xl font-bold mb-2 rounded-3xl p-4 hover:bg-red-500",

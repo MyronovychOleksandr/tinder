@@ -1,7 +1,20 @@
 import instance from "./httpsServer"
 
-export const getAllUsers = () => {
-    return instance.get(`/users`);
+export const getAllUsers = (params) => {
+    const query = {};
+    if (params) {
+        Object.keys(params).forEach((key) => {
+            const value = params[key];
+            if (value !== undefined && value !== '') {
+                query[key] = value;
+            }
+        });
+    }
+    const queryString = new URLSearchParams(query).toString();
+
+    const url = `/users${queryString ? `?${queryString}` : ''}`;
+
+    return instance.get(url);
 }
 
 export const getUserById = (id = "656379b91980a64e43e2a214") => {

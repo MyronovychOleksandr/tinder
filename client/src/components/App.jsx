@@ -14,7 +14,7 @@ function App() {
                     <Suspense fallback={<h1>Loading...</h1>}>
                         <Routes>
                             {routes.map(({path, component: Component, exact}) => {
-                                return <Route key={path} exact={exact} path={path} element={<Component/>}/>
+                                return <Route key={path} exact={exact?.toString()} path={path} element={<Component/>}/>
                             })}
                         </Routes>
                     </Suspense>

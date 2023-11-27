@@ -1,7 +1,16 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import mongoose, {Schema, Document} from "mongoose";
 
-const contactSchema = new Schema(
+interface IUser extends Document {
+    firstName: string;
+    lastName: string;
+    email: string
+    age: number
+    tags: string[]
+    gender: string
+    isAgeModified: boolean
+}
+
+const userSchema: Schema<IUser> = new Schema(
     {
         firstName: {
             type: String,
@@ -11,18 +20,29 @@ const contactSchema = new Schema(
             type: String,
             required: [true, "Set last name for user"],
         },
-        // tags: {
-        //     type: [{ type: String }],
-        //     default: [],
-        // },
-        // owner: {
-        //     type: mongoose.SchemaTypes.ObjectId,
-        //     ref: "user",
-        // },
+        email: {
+            type: String,
+            required: [true, "Set email for user"],
+        },
+        age: {
+            type: Number,
+            required: [true, "Set age for user"],
+        },
+        isAgeModified: {
+            type: Boolean,
+            default: false,
+        },
+        tags: {
+            type: [{ label: String, value: String }],
+            default: [],
+        },
+        gender: {
+            type: String,
+            required: [true, "Set gender for user"],
+        }
     },
-    { versionKey: false, timestamps: true }
+    {versionKey: false, timestamps: true}
 );
+const UserModel = mongoose.model('user', userSchema);
 
-const User = mongoose.model("user", contactSchema);
-
-module.exports = User;
+export default UserModel;

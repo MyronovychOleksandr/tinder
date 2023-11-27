@@ -5,13 +5,13 @@ function valuetext(value) {
     return `${value}°C`;
 }
 
-function DateRangeSlider() {
-    const [value, setValue] = React.useState([20, 37]);
+function DateRangeSlider({onGetAgeRange}) {
+    const [value, setValue] = useState([18, 22]);
 
     const handleChange = (event, newValue) => {
-        console.log("vv newValue ", newValue)
         if((newValue[0] +4) > newValue[1]) return
         setValue(newValue);
+        onGetAgeRange(newValue)
     };
 
     return (
@@ -22,6 +22,7 @@ function DateRangeSlider() {
                 onChange={handleChange}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
+                min={18}
 
             />
         </div>
