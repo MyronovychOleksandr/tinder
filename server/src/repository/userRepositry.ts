@@ -72,6 +72,38 @@ class UserRepository {
             {new: true}
         );
     };
+
+    async updateToken(id: string, token: string | null) {
+        await User.updateOne({ _id: id }, { token });
+    }
+
+    async likeUser(userId: string, likedUserId: string) {
+        return User.findByIdAndUpdate(
+            userId,
+            { $addToSet: { likedUsers: likedUserId } },
+            { new: true }
+        );
+    }
+
+    async unlikeUser(userId: string, unlikedUserId: string) {
+        return User.findByIdAndUpdate(
+            userId,
+            { $pull: { likedUsers: unlikedUserId } },
+            { new: true }
+        );
+    }
+
+    async findUsersLikedByUserId(userId: string): Promise<IUser[]> {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        return User.find({
+            _id: {$in: user.likedUsers},
+        });
+    }
 }
 
 export default new UserRepository();

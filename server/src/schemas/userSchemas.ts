@@ -1,13 +1,20 @@
 import mongoose, {Schema, Document} from "mongoose";
+import bcrypt from "bcryptjs"
+
+const SALT_FACTOR = 6;
 
 interface IUser extends Document {
     firstName: string;
     lastName: string;
     email: string
+    token: string | null
+    password: string
     age: number
     tags: string[]
     gender: string
     isAgeModified: boolean
+    likedUsers: string[];
+    validPassword(password: string): Promise<boolean>;
 }
 
 const userSchema: Schema<IUser> = new Schema(
@@ -23,6 +30,19 @@ const userSchema: Schema<IUser> = new Schema(
         email: {
             type: String,
             required: [true, "Set email for user"],
+            unique: true,
+            validate(value: string) {
+                const re = /\S+@\S+\.\S+/;
+                return re.test(String(value).toLowerCase());
+            },
+        },
+        password: {
+            type: String,
+            required: [true, "Password is required"],
+        },
+        token: {
+            type: String,
+            default: null,
         },
         age: {
             type: Number,
@@ -33,16 +53,31 @@ const userSchema: Schema<IUser> = new Schema(
             default: false,
         },
         tags: {
-            type: [{ label: String, value: String }],
+            type: [{label: String, value: String}],
             default: [],
         },
         gender: {
             type: String,
             required: [true, "Set gender for user"],
-        }
+        },
+        likedUsers: [{ type: Schema.Types.ObjectId, ref: 'user' }],
     },
     {versionKey: false, timestamps: true}
 );
+
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
+    this.password = await bcrypt.hash(
+        this.password,
+        bcrypt.genSaltSync(SALT_FACTOR)
+    );
+    next();
+});
+
+userSchema.methods.validPassword = async function (password: string) {
+    return await bcrypt.compare(password, this.password);
+};
+
 const UserModel = mongoose.model('user', userSchema);
 
 export default UserModel;

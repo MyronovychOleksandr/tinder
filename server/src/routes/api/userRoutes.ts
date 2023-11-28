@@ -1,17 +1,30 @@
 import express from "express"
 import {
     getAllUsersController,
-    getUserByIdController,
+    getMeController,
     registrationController,
-    updateUserController
+    updateUserController,
+    loginController,
+    logoutController,
+    likeUserController,
+    unlikeUserController,
+    getMatchedUsersController
 } from "../../controlers/userControlers"
+
+import {guard} from "../../helpers/guard";
 
 const router = express.Router();
 
-router.get("/", getAllUsersController);
-router.get("/:userId", getUserByIdController);
 router.post("/create", registrationController);
-router.put("/edit/:userId", updateUserController);
+router.post("/login", loginController)
+router.get("/", guard, getAllUsersController);
+// router.get("/:userId", getUserByIdController);
+router.get("/me", guard, getMeController);
+router.post("/logout", guard, logoutController);
+router.put("/edit", guard, updateUserController);
+router.post("/like", guard, likeUserController);
+router.post("/unlike", guard, unlikeUserController);
+router.get("/matched", guard, getMatchedUsersController);
 
 
 export default router;

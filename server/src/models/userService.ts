@@ -21,6 +21,28 @@ class UserService {
     updateUser(id: string, body: IUser) {
         return UserRepository.updateUser(id, body);
     };
+
+    async likeUser(userId: string, likedUserId: string) {
+        return UserRepository.likeUser(userId, likedUserId);
+    }
+
+    async unlikeUser(userId: string, unlikedUserId: string) {
+        return UserRepository.unlikeUser(userId, unlikedUserId);
+    }
+
+    async getMatchedUsers(userId: string): Promise<IUser[]> {
+        const user = await UserRepository.findUserById(userId);
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const likedByUsers = await UserRepository.findUsersLikedByUserId(userId);
+
+        return likedByUsers.filter((likedByUser) =>
+            likedByUser.likedUsers?.some((likedUserId) => likedUserId.toString() === userId.toString())
+        );
+    }
 }
 
 export default new UserService();

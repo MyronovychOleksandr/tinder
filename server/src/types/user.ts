@@ -4,7 +4,9 @@ export interface IUser  {
     tags?: string[]
     age: number
     email: string
+    password: string
     gender: string
-    id?: string
+    id?: string;
     isAgeModified?: boolean
+    likedUsers?: string[]
 }

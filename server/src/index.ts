@@ -4,11 +4,12 @@ import cors from "cors"
 import userRouter from "./routes/api/userRoutes";
 import path from "path"
 import {HttpCode} from "./constatns/httpCodes";
-
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 5000;
-const uriDb = "mongodb+srv://vaspupkin204:23111992@cluster0.08bnijo.mongodb.net/tinder?retryWrites=true&w=majority"
+const port = process.env.PORT
+const uriDb = process.env.URI_DB as string
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
@@ -28,10 +29,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     err.status = err.status ? err.status : HttpCode.INTERNAL_SERVER_ERROR;
     res.status(err.status).json({
-        status: err.status === 500 ? "fail" : "error",
+        status: err.status === HttpCode.INTERNAL_SERVER_ERROR ? "fail" : "error",
         code: err.status,
         message: err.message,
-        data: err.status === 500 ? "Internal Server Error" : err.data,
+        data: err.status === HttpCode.INTERNAL_SERVER_ERROR ? "Internal Server Error" : err.data,
     });
 });
 
