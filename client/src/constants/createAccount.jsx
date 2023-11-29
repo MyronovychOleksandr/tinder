@@ -6,15 +6,19 @@ export const FIRST_NAME_MAX_LENGTH = 35
 
 export const LAST_NAME_KEY = "lastName"
 export const LAST_NAME_LABEL = "Last name"
-export const LAST_NAME_PLACEHOLDER = "Input last name"
+export const LAST_NAME_PLACEHOLDER = "Last name"
 
 export const EMAIL_KEY = "email"
 export const EMAIL_LABEL = "Email"
-export const EMAIL_PLACEHOLDER = "Input email"
+export const EMAIL_PLACEHOLDER = "Email"
+
+export const PASSWORD_KEY = "password"
+export const PASSWORD_LABEL = "Password"
+export const PASSWORD_PLACEHOLDER = "Password"
 
 export const AGE_KEY = "age"
 export const AGE_LABEL = "Age"
-export const AGE_PLACEHOLDER = "Input age"
+export const AGE_PLACEHOLDER = "Age"
 export const MIN_AGE = 18
 
 export const GENDER_KEY = "gender"

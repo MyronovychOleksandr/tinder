@@ -11,6 +11,8 @@ export const LAST_NAME = yup.string()
 
 export const EMAIL = yup.string().email('Wrong format of email')
 
+export const PASSWORD = yup.string()
+
 export const AGE = yup.number()
     .min(MIN_AGE)
 

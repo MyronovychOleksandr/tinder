@@ -1,14 +1,27 @@
 import React from 'react';
 import {Formik} from "formik";
 import FormikTextInput from "../formik/FormikTextInput";
-import {createAccountInitialValues, createAccountValidationSchema} from "../../validators/createAccount/userForm";
+import {createAccountValidationSchema} from "../../validators/createAccount/userForm";
 import {
-    AGE_KEY, AGE_LABEL, AGE_PLACEHOLDER, EMAIL_KEY, EMAIL_LABEL, EMAIL_PLACEHOLDER,
+    AGE_KEY,
+    AGE_LABEL,
+    AGE_PLACEHOLDER,
+    EMAIL_KEY,
+    EMAIL_LABEL,
+    EMAIL_PLACEHOLDER,
     FIRST_NAME_KEY,
     FIRST_NAME_LABEL,
-    FIRST_NAME_PLACEHOLDER, GENDER_KEY, GENDER_OPTIONS,
+    FIRST_NAME_PLACEHOLDER,
+    GENDER_KEY,
+    GENDER_OPTIONS,
     LAST_NAME_KEY,
-    LAST_NAME_LABEL, LAST_NAME_PLACEHOLDER, TAG_NAME, TAG_PLACEHOLDER
+    LAST_NAME_LABEL,
+    LAST_NAME_PLACEHOLDER,
+    PASSWORD_KEY,
+    PASSWORD_LABEL,
+    PASSWORD_PLACEHOLDER,
+    TAG_NAME,
+    TAG_PLACEHOLDER
 } from "../../constants/createAccount";
 import FormikRadioGroup from "../formik/FormikRadioGroup";
 import {Button} from '@mui/material';
@@ -37,6 +50,11 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
                         name={EMAIL_KEY}
                         label={EMAIL_LABEL}
                         placeholder={EMAIL_PLACEHOLDER}
+                    />
+                    <FormikTextInput
+                        name={PASSWORD_KEY}
+                        label={PASSWORD_LABEL}
+                        placeholder={PASSWORD_PLACEHOLDER}
                     />
                     <FormikTextInput
                         name={FIRST_NAME_KEY}

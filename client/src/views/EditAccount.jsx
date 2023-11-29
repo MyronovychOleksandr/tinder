@@ -1,14 +1,14 @@
-import {editUser, getUserById} from "../services/users";
-import CreateAccountForm from "../components/CreateAccountForm";
-import {createAccountInitialValues} from "../validators/createAccount/userForm";
+import {editUser, getMe} from "../services/users";
+import {editAccountInitialValues} from "../validators/createAccount/userForm";
 import React, {useEffect, useState} from "react";
 import { toast } from 'react-toastify';
+import EditAccountForm from "../components/EditAccountForm";
 
 const EditAccount = () => {
-    const [initialValues, setInitialValues] = useState(createAccountInitialValues)
+    const [initialValues, setInitialValues] = useState(editAccountInitialValues)
 
     useEffect(() => {
-        getUserById()
+        getMe()
             .then(({data}) => {
                 const {user} = data
                 setInitialValues({
@@ -32,7 +32,7 @@ const EditAccount = () => {
 
     return (
         <div>
-            <CreateAccountForm
+            <EditAccountForm
                 onSubmit={handleSubmit}
                 initialValues={initialValues}
             />

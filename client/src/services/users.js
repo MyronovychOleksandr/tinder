@@ -17,14 +17,18 @@ export const getAllUsers = (params) => {
     return instance.get(url);
 }
 
-export const getUserById = (id = "656379b91980a64e43e2a214") => {
-    return instance.get(`/users/${id}`);
+export const getMatchedUsers = () => {
+    return instance.get(`/users/matched`)
+}
+
+export const getMe = () => {
+    return instance.get(`/users/me`);
 }
 
 export const createUser = (data) => {
     return instance.post(`/users/create`, data);
 }
 
-export const editUser = (data, id = "656379b91980a64e43e2a214", ) => {
-    return instance.put(`/users/edit/${id}`, data);
+export const editUser = (data) => {
+    return instance.put(`/users/edit`, data);
 }

@@ -20,9 +20,21 @@ export const routes = [
         component: lazy(() => import("./views/CreateAccount.jsx"))
     },
     {
+        path: "/login",
+        exact: true,
+        label: "Login",
+        component: lazy(() => import("./views/Login.jsx"))
+    },
+    {
         path: "/edit-account",
         exact: true,
         label: "Edit Account",
         component: lazy(() => import("./views/EditAccount.jsx"))
+    },
+    {
+        path: "/matched",
+        exact: true,
+        label: "Matched uses",
+        component: lazy(() => import("./views/MatchedUsers.jsx"))
     }
 ]
