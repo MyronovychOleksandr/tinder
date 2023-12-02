@@ -1,9 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import LoginForm from "../components/LoginForm";
 import {login} from "../services/auth";
 import {toast} from "react-toastify";
 import Cookies from 'js-cookie';
 import {useAuth} from "../contexts/AuthContext";
+import { redirect } from "react-router-dom";
 
 const Login = () => {
     const {updateToken} = useAuth();
@@ -13,6 +14,7 @@ const Login = () => {
             .then(({data}) => {
                 Cookies.set('token', data.token);
                 updateToken(data.token)
+                redirect("/list")
             })
             .catch((e) => toast.error(e.message))
     }

@@ -18,6 +18,7 @@ const List = () => {
     const [users, setUsers] = useState([])
     const [ageRange, setAgeRange] = useState([18, 22])
     const [gender, setGender] = useState('')
+    const [search, setSearch] = useState('')
     const [tags, setTags] = useState([])
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
@@ -33,6 +34,7 @@ const List = () => {
                 maxAge: ageRange[1],
                 tags: getTagsQueryString(tags),
                 pageSize: 3,
+                search,
                 page,
                 gender
             }
@@ -67,6 +69,10 @@ const List = () => {
         setPage(data)
     }
 
+    const handleSetSearch = (e) => {
+        setSearch(e.target.value)
+    }
+
     return (
         <div>
             <PageTitle>List</PageTitle>
@@ -92,6 +98,12 @@ const List = () => {
                         onSelect={handleSelectTags}
                     />
                 </div>
+                <div className={"w-2/5 mb-4"}>
+                    <TextField
+                        onChange={handleSetSearch}
+                        placeholder={"Search..."}
+                    />
+                </div>
             </div>
             <div className={"flex justify-end"}>
                 <Button variant="contained" type={"button"} onClick={handleSubmit}>
@@ -104,9 +116,9 @@ const List = () => {
                     return <p><span>{item?.firstName}</span> <span>{item?.age}</span></p>
                 })
             }
-            <div className={"flex justify-center"}>
+            {!!totalPages && <div className={"flex justify-center"}>
                 <Pagination count={totalPages} page={page} onChange={handleChangePagination}/>
-            </div>
+            </div>}
 
         </div>
     );
