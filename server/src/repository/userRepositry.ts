@@ -12,6 +12,7 @@ class UserRepository {
         minAge?: number,
         maxAge?: number,
         tags?: string[],
+        search?: string,
         page: number = 1,
         pageSize: number = 10
     ) {
@@ -35,6 +36,13 @@ class UserRepository {
 
         if (tags && tags.length > 0) {
             query.tags = { $elemMatch: { value: { $in: tags } } };
+        }
+
+        if (search) {
+            query.$or = [
+                { firstName: { $regex: search, $options: 'i' } },
+                { lastName: { $regex: search, $options: 'i' } },
+            ];
         }
 
         const totalUsers = await User.countDocuments(query);

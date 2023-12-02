@@ -80,10 +80,11 @@ export const getAllUsersController = async (req: Request, res: Response, next: N
         const minAge = req.query.minAge ? Number(req.query.minAge) : undefined
         const maxAge = req.query.maxAge ? Number(req.query.maxAge) : undefined
         const tags = req.query.tags ? String(req.query.tags).split(",") : undefined
+        const search = req.query.search ? String(req.query.search) : undefined
         const page = req.query.page ? Number(req.query.page) : undefined
         const pageSize = req.query.pageSize ? Number(req.query.pageSize) : undefined
 
-        const data = await UserService.findUsers(gender, minAge, maxAge, tags, page, pageSize);
+        const data = await UserService.findUsers(gender, minAge, maxAge, tags, search, page, pageSize);
 
         res.json({
             status: "success",

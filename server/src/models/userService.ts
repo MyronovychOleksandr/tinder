@@ -6,8 +6,8 @@ class UserService {
         return await UserRepository.createUser(body);
     }
 
-    findUsers(gender?: string, minAge?: number, maxAge?: number, tags?: string[], page?: number, pageSize?: number) {
-        return UserRepository.findUsers(gender, minAge, maxAge, tags, page, pageSize);
+    findUsers(gender?: string, minAge?: number, maxAge?: number, tags?: string[], search?: string, page?: number, pageSize?: number) {
+        return UserRepository.findUsers(gender, minAge, maxAge, tags, search, page, pageSize);
     }
 
     findUserById(id: string){
