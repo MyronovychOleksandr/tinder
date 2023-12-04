@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 
 const CreateAccount = () => {
 
+
     const handleSubmit = (data) =>  {
         createUser(data)
             .then((res) => {

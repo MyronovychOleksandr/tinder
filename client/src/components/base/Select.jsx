@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import AsyncSelect from 'react-select/async';
 
-const SelectComponent = ({values, options, placeholder, onSelect}) => {
+const SelectComponent = ({values, options, placeholder, onSelect, defaultValue, isMulti = true}) => {
     const [selectedOption, setSelectedOption] = useState( []);
 
     useEffect(() => {
@@ -17,10 +17,10 @@ const SelectComponent = ({values, options, placeholder, onSelect}) => {
     return (
         <div>
             <AsyncSelect
-                isMulti
+                isMulti={isMulti}
                 value={selectedOption}
                 onChange={handleChange}
-                // options={options}
+                defaultInputValue={defaultValue}
                 defaultOptions={options}
                 isSearchable
                 placeholder={placeholder}

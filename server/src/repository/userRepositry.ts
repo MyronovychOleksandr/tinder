@@ -14,53 +14,83 @@ class UserRepository {
         tags?: string[],
         search?: string,
         page: number = 1,
-        pageSize: number = 10
-    ) {
-        const query: any = {};
+        pageSize: number = 10,
+        coordinates?: number[],
+        maxDistance: number = 5
+    ): Promise<{ users: any[], currentPage: number, totalPages: number, pageSize: number, totalUsers: number }> {
+        const pipeline: any[] = [];
+
+        if (coordinates && maxDistance) {
+            pipeline.push({
+                $geoNear: {
+                    near: {
+                        type: "Point",
+                        coordinates: coordinates,
+                    },
+                    distanceField: "distance",
+                    maxDistance: maxDistance * 1000,
+                    spherical: true,
+                },
+            });
+        }
+
+        const matchQuery: any = {};
 
         if (gender) {
-            query.gender = gender;
+            matchQuery.gender = gender;
         }
 
         if (minAge !== undefined || maxAge !== undefined) {
-            query.age = {};
+            matchQuery.age = {};
 
             if (minAge !== undefined) {
-                query.age.$gte = minAge;
+                matchQuery.age.$gte = minAge;
             }
 
             if (maxAge !== undefined) {
-                query.age.$lte = maxAge;
+                matchQuery.age.$lte = maxAge;
             }
         }
 
         if (tags && tags.length > 0) {
-            query.tags = { $elemMatch: { value: { $in: tags } } };
+            matchQuery.tags = { $elemMatch: { value: { $in: tags } } };
         }
 
         if (search) {
-            query.$or = [
+            matchQuery.$or = [
                 { firstName: { $regex: search, $options: 'i' } },
                 { lastName: { $regex: search, $options: 'i' } },
             ];
         }
 
-        const totalUsers = await User.countDocuments(query);
+        pipeline.push({ $match: matchQuery });
+
+        pipeline.push({
+            $group: {
+                _id: null,
+                count: { $sum: 1 },
+                users: { $push: "$$ROOT" },
+            },
+        });
+
+        const totalUsers = await User.aggregate<{ count: number, users: any[] }>(pipeline);
 
         const startIndex = (page - 1) * pageSize;
 
-        const users = await User.find(query)
-            .skip(startIndex)
-            .limit(pageSize);
+        pipeline.push({ $unwind: "$users" });
+        pipeline.push({ $skip: startIndex });
+        pipeline.push({ $limit: pageSize });
 
-        const totalPages = Math.ceil(totalUsers / pageSize);
+        const users = await User.aggregate(pipeline);
+
+        const totalPages = Math.ceil(totalUsers[0]?.count / pageSize) || 0;
 
         return {
             users,
             currentPage: page,
             totalPages,
             pageSize,
-            totalUsers
+            totalUsers: totalUsers[0]?.count || 0,
         };
     }
 

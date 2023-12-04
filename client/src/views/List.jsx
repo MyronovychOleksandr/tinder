@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PageTitle from "../components/base/PageTitle";
-import DropDown from "../components/base/DropDown";
 import RangeSlider from "../components/base/DateRangeSlider";
-import Dropzone from "../components/base/Dropzone";
 import TextField from "../components/base/TextField";
 import {getAllUsers} from "../services/users";
 import {toast} from "react-toastify";
@@ -13,19 +11,38 @@ import SelectComponent from "../components/base/Select";
 import {Button} from "@mui/material";
 import {getTagsQueryString} from "../utils/getTagsQueryString";
 import Pagination from "@mui/material/Pagination";
+import {useGeolocated} from "react-geolocated";
+import {DISTANCE_OPTIONS, DISTANCE_PLACEHOLDER} from "../constants/list";
 
 const List = () => {
     const [users, setUsers] = useState([])
     const [ageRange, setAgeRange] = useState([18, 22])
     const [gender, setGender] = useState('')
     const [search, setSearch] = useState('')
+    const [lon, setLon] = useState('')
+    const [lat, setLat] = useState('')
     const [tags, setTags] = useState([])
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [distance, setDistance] = useState(DISTANCE_OPTIONS[0].key)
 
     useEffect(() => {
+        if(!lon || !lat) return
         handleGetUsers()
-    }, [page])
+    }, [page, lon, lat])
+
+    const {coords} =
+        useGeolocated({
+            positionOptions: {
+                enableHighAccuracy: false,
+            },
+            userDecisionTimeout: 5000,
+        });
+
+    useEffect(() => {
+        setLon(coords?.longitude)
+        setLat(coords?.latitude)
+    }, [coords])
 
     const handleGetUsers = async () => {
         try {
@@ -36,11 +53,13 @@ const List = () => {
                 pageSize: 3,
                 search,
                 page,
-                gender
+                gender,
+                lon: lon,
+                lat: lat,
+                maxDistance: distance
             }
             const {data} = await getAllUsers(params)
-            const {users} = data.data
-            const {totalPages} = data.data
+            const {users, totalPages} = data.data
 
             setUsers(users)
             setTotalPages(totalPages)
@@ -73,6 +92,10 @@ const List = () => {
         setSearch(e.target.value)
     }
 
+    const handleSelectDistance = (selectedOption) => {
+        setDistance(selectedOption.value)
+    }
+
     return (
         <div>
             <PageTitle>List</PageTitle>
@@ -102,6 +125,15 @@ const List = () => {
                     <TextField
                         onChange={handleSetSearch}
                         placeholder={"Search..."}
+                    />
+                </div>
+                <div className={"w-2/5 mb-4"}>
+                    <SelectComponent
+                        options={DISTANCE_OPTIONS}
+                        defaultValue={DISTANCE_OPTIONS[0].label}
+                        onSelect={handleSelectDistance}
+                        placeholder={DISTANCE_PLACEHOLDER}
+                        isMulti={false}
                     />
                 </div>
             </div>

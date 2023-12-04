@@ -5,7 +5,7 @@ import {createAccountValidationSchema} from "../../validators/createAccount/user
 import {
     AGE_KEY,
     AGE_LABEL,
-    AGE_PLACEHOLDER,
+    AGE_PLACEHOLDER, COORDINATES,
     EMAIL_KEY,
     EMAIL_LABEL,
     EMAIL_PLACEHOLDER,
@@ -28,6 +28,7 @@ import {Button} from '@mui/material';
 import ImageUploader from "../ImageUploader";
 import FormikSelect from "../formik/FormikSelect";
 import ImageProcessing from "../base/ImageProcessing";
+import LocationComponent from "../LocationComponent";
 
 const CreateAccountForm = ({initialValues, onSubmit}) => {
 
@@ -44,6 +45,7 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
             enableReinitialize
         >
             {({errors, touched, handleSubmit, setFieldValue, values, isValid, ...p}) => {
+
                 return (<form onSubmit={handleSubmit}>
                     {/*<ImageUploader/>*/}
                     <FormikTextInput
@@ -80,6 +82,9 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
                     <FormikSelect
                         name={TAG_NAME}
                         placeholder={TAG_PLACEHOLDER}
+                    />
+                    <LocationComponent
+                        name={COORDINATES}
                     />
                     <div className={"flex justify-end"}>
                         <Button variant="contained" type={"submit"}>

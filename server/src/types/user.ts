@@ -8,5 +8,9 @@ export interface IUser  {
     gender: string
     id?: string;
     isAgeModified?: boolean
+    location:{
+        type: string
+        coordinates: number[]
+    }
     likedUsers?: string[]
 }

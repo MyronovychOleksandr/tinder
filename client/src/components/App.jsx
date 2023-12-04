@@ -9,6 +9,7 @@ import {useAuth} from "../contexts/AuthContext";
 import Cookies from "js-cookie";
 import PrivateRoute from "./PrivateRoute";
 import RestrictedRoute from "./RestrictedRoute";
+import {Navigate} from "react-router-dom";
 
 function App() {
     const {token, updateToken} = useAuth();
@@ -48,6 +49,7 @@ function App() {
                                     />
                                 )
                             ))}
+                            <Route path="/" element={ <Navigate to="/login" />}/>
                         </Routes>
                     </Suspense>
                 </Layout>

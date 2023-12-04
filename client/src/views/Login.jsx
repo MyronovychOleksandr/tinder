@@ -12,7 +12,9 @@ const Login = () => {
     const handleSubmit = (data) => {
         login(data)
             .then(({data}) => {
-                Cookies.set('token', data.token);
+                const expirationDate = new Date();
+                expirationDate.setTime(expirationDate.getTime() + 60 * 60 * 1000);
+                Cookies.set('token', data.token, { expires: expirationDate });
                 updateToken(data.token)
                 redirect("/list")
             })

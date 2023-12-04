@@ -5,7 +5,7 @@ import {IUser} from "../types/user";
 import {NextFunction, Request, Response} from "express";
 
 export const registrationController = async (req: Request, res: Response, next: NextFunction) => {
-    const {firstName, lastName, age, tags, email, gender, password} = req.body;
+    const {firstName, lastName, age, tags, email, gender, password, coordinates} = req.body;
 
     try {
         const user = await UserService.findUserByEmail(email)
@@ -24,7 +24,11 @@ export const registrationController = async (req: Request, res: Response, next: 
             tags,
             email,
             password,
-            gender
+            gender,
+            location: {
+                type: 'Point',
+                coordinates,
+            },
         });
         return res.status(HttpCode.CREATED).json({
             status: "success",
@@ -83,8 +87,13 @@ export const getAllUsersController = async (req: Request, res: Response, next: N
         const search = req.query.search ? String(req.query.search) : undefined
         const page = req.query.page ? Number(req.query.page) : undefined
         const pageSize = req.query.pageSize ? Number(req.query.pageSize) : undefined
+        const maxDistance = req.query.maxDistance ? Number(req.query.maxDistance) : undefined
+        const lon = req.query.lon ? Number(req.query.lon) : undefined
+        const lat = req.query.lat ? Number(req.query.lat) : undefined
 
-        const data = await UserService.findUsers(gender, minAge, maxAge, tags, search, page, pageSize);
+        const coordinates = (lon && lat) ? [lon, lat] : undefined
+
+        const data = await UserService.findUsers(gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance);
 
         res.json({
             status: "success",

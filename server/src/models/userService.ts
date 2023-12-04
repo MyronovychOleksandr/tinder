@@ -6,11 +6,26 @@ class UserService {
         return await UserRepository.createUser(body);
     }
 
-    findUsers(gender?: string, minAge?: number, maxAge?: number, tags?: string[], search?: string, page?: number, pageSize?: number) {
-        return UserRepository.findUsers(gender, minAge, maxAge, tags, search, page, pageSize);
+    async findUsers(
+        gender?: string,
+        minAge?: number,
+        maxAge?: number,
+        tags?: string[],
+        search?: string,
+        page?: number,
+        pageSize?: number,
+        coordinates?: number[],
+        maxDistance?: number
+    ) {
+        const {users, totalPages, currentPage, totalUsers, pageSize: pageLimit} = await UserRepository.findUsers(gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance);
+
+        const usersList = users.map((item: any) => {
+            return {...item.users}
+        })
+        return {users: usersList, totalPages, currentPage, totalUsers, pageSize: pageLimit}
     }
 
-    findUserById(id: string){
+    findUserById(id: string) {
         return UserRepository.findUserById(id)
     }
 

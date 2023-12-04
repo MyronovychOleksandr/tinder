@@ -24,3 +24,10 @@ const tagSchema = yup.object({
 });
 
 export const TAG =  yup.array().of(tagSchema);
+
+export const COORDINATES =yup
+    .array()
+    .of(yup.number().required())
+    .required()
+    .min(2)
+    .max(2)

@@ -13,6 +13,10 @@ interface IUser extends Document {
     tags: string[]
     gender: string
     isAgeModified: boolean
+    location:{
+        type: string
+        coordinates: number[]
+    }
     likedUsers: string[];
     validPassword(password: string): Promise<boolean>;
 }
@@ -60,10 +64,23 @@ const userSchema: Schema<IUser> = new Schema(
             type: String,
             required: [true, "Set gender for user"],
         },
+        location: {
+            type: {
+                type: String,
+                enum: ['Point'],
+                required: true,
+            },
+            coordinates: {
+                type: [Number],
+                required: true,
+            },
+        },
         likedUsers: [{ type: Schema.Types.ObjectId, ref: 'user' }],
     },
     {versionKey: false, timestamps: true}
 );
+
+userSchema.index({ 'location.coordinates': '2dsphere' });
 
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();

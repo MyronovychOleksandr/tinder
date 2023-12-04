@@ -26,6 +26,12 @@ export const GENDER_KEY = "gender"
 export const TAG_NAME = "tags"
 export const TAG_PLACEHOLDER = "Select a tags"
 
+export const COORDINATES = "coordinates"
+
+export const LATITUDE_LABEL = "Latitude"
+export const LONGITUDE_LABEL = "Longitude"
+
+
 export const GENDER_OPTIONS = [
     {label: 'Male', value: 'male'},
     {label: 'Female', value: 'female'},

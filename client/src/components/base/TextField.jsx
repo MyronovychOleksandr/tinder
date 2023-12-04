@@ -6,10 +6,12 @@ const TextField = ({
                        onChange,
                        onBlur,
                        placeholder,
-                       type = "text"
+                       type = "text",
+                       disabled = false,
+                       containerClassNames = ""
                    }) => {
     return (
-        <div>
+        <div className={containerClassNames}>
             <label className="block text-sm font-bold text-gray-600">{label}</label>
             <input
                 type={type}
@@ -18,6 +20,7 @@ const TextField = ({
                 onChange={onChange}
                 onBlur={onBlur}
                 placeholder={placeholder}
+                disabled={disabled}
             />
         </div>
     );
