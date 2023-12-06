@@ -1,13 +1,13 @@
 import { lazy } from "react";
 
 export const routes = [
-    // {
-    //     path: "/",
-    //     exact: true,
-    //     label: "Cards",
-    //     component: lazy(() => import("./views/Cards.jsx")),
-    //     isPrivate: true
-    // },
+    {
+        path: "/",
+        exact: true,
+        label: "Cards",
+        component: lazy(() => import("./views/Cards.jsx")),
+        isPrivate: true
+    },
     {
         path: "/list",
         exact: true,

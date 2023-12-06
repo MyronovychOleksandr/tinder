@@ -33,8 +33,8 @@ class UserService {
         return UserRepository.findUserByEmail(email);
     }
 
-    updateUser(id: string, body: IUser) {
-        return UserRepository.updateUser(id, body);
+    updateUser(id: string, body: IUser, images: string[]) {
+        return UserRepository.updateUser(id, body, images);
     };
 
     async likeUser(userId: string, likedUserId: string) {

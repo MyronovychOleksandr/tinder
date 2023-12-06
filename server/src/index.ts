@@ -2,8 +2,8 @@ import express, {Request, Response, NextFunction} from 'express';
 import mongoose from "mongoose"
 import cors from "cors"
 import userRouter from "./routes/api/userRoutes";
-import path from "path"
 import {HttpCode} from "./constatns/httpCodes";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -11,9 +11,11 @@ const app = express();
 const port = process.env.PORT
 const uriDb = process.env.URI_DB as string
 
-app.use(express.static(path.join(__dirname, "public")));
+// app.use('/src/uploads', express.static('uploads'));
+// app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
-app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.use("/api/users", userRouter);
 

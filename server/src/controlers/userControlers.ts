@@ -6,46 +6,49 @@ import {NextFunction, Request, Response} from "express";
 
 export const registrationController = async (req: Request, res: Response, next: NextFunction) => {
     const {firstName, lastName, age, tags, email, gender, password, coordinates} = req.body;
+    console.log("vv body ", req.body)
+    console.log("vv files ", req.files)
 
-    try {
-        const user = await UserService.findUserByEmail(email)
-        if (user) {
-            return next({
-                status: HttpCode.CONFLICT,
-                data: "Conflict",
-                message: "Email in use",
-            });
-        }
-
-        const newUser: IUser = await UserService.createUser({
-            firstName,
-            lastName,
-            age,
-            tags,
-            email,
-            password,
-            gender,
-            location: {
-                type: 'Point',
-                coordinates,
-            },
-        });
-        return res.status(HttpCode.CREATED).json({
-            status: "success",
-            code: HttpCode.CREATED,
-            data: {
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
-                tags: newUser.tags,
-                age: newUser.age,
-                email: newUser.email,
-                gender: gender,
-                id: newUser.id,
-            },
-        });
-    } catch (e) {
-        next(e);
-    }
+    // try {
+    //     const user = await UserService.findUserByEmail(email)
+    //     if (user) {
+    //         return next({
+    //             status: HttpCode.CONFLICT,
+    //             data: "Conflict",
+    //             message: "Email in use",
+    //         });
+    //     }
+    //
+    //     const newUser: IUser = await UserService.createUser({
+    //         firstName,
+    //         lastName,
+    //         age,
+    //         tags,
+    //         email,
+    //         password,
+    //         gender,
+    //         location: {
+    //             type: 'Point',
+    //             coordinates,
+    //         },
+    //         images: req.body.images || [],
+    //     });
+    //     return res.status(HttpCode.CREATED).json({
+    //         status: "success",
+    //         code: HttpCode.CREATED,
+    //         data: {
+    //             firstName: newUser.firstName,
+    //             lastName: newUser.lastName,
+    //             tags: newUser.tags,
+    //             age: newUser.age,
+    //             email: newUser.email,
+    //             gender: gender,
+    //             id: newUser.id,
+    //         },
+    //     });
+    // } catch (e) {
+    //     next(e);
+    // }
 };
 
 export const loginController = async (req: Request, res: Response, next: NextFunction) => {
@@ -140,7 +143,7 @@ export const updateUserController = async (req: Request, res: Response, next: Ne
     try {
         const userData = req.user;
         const {id} = userData as IUser
-        const user = await UserService.updateUser(id as string, req.body);
+        const user = await UserService.updateUser(id as string, req.body, req.body.images || []);
         if (user) {
             return res.json({
                 status: "success",

@@ -17,6 +17,7 @@ interface IUser extends Document {
         type: string
         coordinates: number[]
     }
+    images: string[]
     likedUsers: string[];
     validPassword(password: string): Promise<boolean>;
 }
@@ -76,6 +77,7 @@ const userSchema: Schema<IUser> = new Schema(
             },
         },
         likedUsers: [{ type: Schema.Types.ObjectId, ref: 'user' }],
+        images: [{ type: String }],
     },
     {versionKey: false, timestamps: true}
 );

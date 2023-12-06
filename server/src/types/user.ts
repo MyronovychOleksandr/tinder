@@ -13,4 +13,5 @@ export interface IUser  {
         coordinates: number[]
     }
     likedUsers?: string[]
+    images: string[]
 }

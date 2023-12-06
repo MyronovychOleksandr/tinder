@@ -53,23 +53,23 @@ class UserRepository {
         }
 
         if (tags && tags.length > 0) {
-            matchQuery.tags = { $elemMatch: { value: { $in: tags } } };
+            matchQuery.tags = {$elemMatch: {value: {$in: tags}}};
         }
 
         if (search) {
             matchQuery.$or = [
-                { firstName: { $regex: search, $options: 'i' } },
-                { lastName: { $regex: search, $options: 'i' } },
+                {firstName: {$regex: search, $options: 'i'}},
+                {lastName: {$regex: search, $options: 'i'}},
             ];
         }
 
-        pipeline.push({ $match: matchQuery });
+        pipeline.push({$match: matchQuery});
 
         pipeline.push({
             $group: {
                 _id: null,
-                count: { $sum: 1 },
-                users: { $push: "$$ROOT" },
+                count: {$sum: 1},
+                users: {$push: "$$ROOT"},
             },
         });
 
@@ -77,9 +77,9 @@ class UserRepository {
 
         const startIndex = (page - 1) * pageSize;
 
-        pipeline.push({ $unwind: "$users" });
-        pipeline.push({ $skip: startIndex });
-        pipeline.push({ $limit: pageSize });
+        pipeline.push({$unwind: "$users"});
+        pipeline.push({$skip: startIndex});
+        pipeline.push({$limit: pageSize});
 
         const users = await User.aggregate(pipeline);
 
@@ -103,31 +103,31 @@ class UserRepository {
         return User.findOne({email});
     }
 
-    updateUser(id: string, body: IUser) {
+    async updateUser(id: string, body: IUser, images: string[]) {
         return User.findByIdAndUpdate(
             id,
-            {...body},
+            {...body, $push: {images: {$each: images}}},
             {new: true}
         );
-    };
+    }
 
     async updateToken(id: string, token: string | null) {
-        await User.updateOne({ _id: id }, { token });
+        await User.updateOne({_id: id}, {token});
     }
 
     async likeUser(userId: string, likedUserId: string) {
         return User.findByIdAndUpdate(
             userId,
-            { $addToSet: { likedUsers: likedUserId } },
-            { new: true }
+            {$addToSet: {likedUsers: likedUserId}},
+            {new: true}
         );
     }
 
     async unlikeUser(userId: string, unlikedUserId: string) {
         return User.findByIdAndUpdate(
             userId,
-            { $pull: { likedUsers: unlikedUserId } },
-            { new: true }
+            {$pull: {likedUsers: unlikedUserId}},
+            {new: true}
         );
     }
 
