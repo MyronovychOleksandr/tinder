@@ -10,6 +10,7 @@ const EditAccount = () => {
     useEffect(() => {
         getMe()
             .then(({data}) => {
+                console.log("vv data ", data)
                 const {user} = data
                 setInitialValues({
                     firstName: user.firstName,

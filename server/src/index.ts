@@ -4,6 +4,7 @@ import cors from "cors"
 import userRouter from "./routes/api/userRoutes";
 import {HttpCode} from "./constatns/httpCodes";
 import bodyParser from "body-parser";
+import path from 'path';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -11,11 +12,10 @@ const app = express();
 const port = process.env.PORT
 const uriDb = process.env.URI_DB as string
 
-// app.use('/src/uploads', express.static('uploads'));
-// app.use(express.static(path.join(__dirname, "public")));
+app.use('/uploads', express.static(path.join(__dirname, "..", 'uploads')));
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRouter);
 

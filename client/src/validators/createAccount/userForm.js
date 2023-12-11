@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import {AGE, FIRST_NAME, LAST_NAME, GENDER, TAG, EMAIL, PASSWORD, COORDINATES} from "./user";
+import {AGE, FIRST_NAME, LAST_NAME, GENDER, TAG, EMAIL, PASSWORD, COORDINATES, IMAGES} from "./user";
 
 export const createAccountValidationSchema = yup.object().shape({
     firstName: FIRST_NAME.required(),
@@ -9,7 +9,8 @@ export const createAccountValidationSchema = yup.object().shape({
     age: AGE.required(),
     gender: GENDER.required(),
     tags: TAG,
-    coordinates: COORDINATES.required()
+    coordinates: COORDINATES.required(),
+    images: IMAGES
 })
 
 export const createAccountInitialValues = {
@@ -20,7 +21,8 @@ export const createAccountInitialValues = {
     age: 0,
     gender: "",
     tags: [],
-    coordinates: []
+    coordinates: [],
+    images: []
 }
 
 export const editAccountValidationSchema = yup.object().shape({

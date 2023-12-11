@@ -25,12 +25,12 @@ import {
 } from "../../constants/createAccount";
 import FormikRadioGroup from "../formik/FormikRadioGroup";
 import {Button} from '@mui/material';
-import ImageUploader from "../ImageUploader";
 import FormikSelect from "../formik/FormikSelect";
 import ImageProcessing from "../base/ImageProcessing";
 import LocationComponent from "../LocationComponent";
 
 const CreateAccountForm = ({initialValues, onSubmit}) => {
+
 
     const handleValidateSubmit = (values) => {
         onSubmit(values)
@@ -47,7 +47,9 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
             {({errors, touched, handleSubmit, setFieldValue, values, isValid, ...p}) => {
 
                 return (<form onSubmit={handleSubmit}>
-                    {/*<ImageUploader/>*/}
+                    <ImageProcessing
+                        index={0}
+                    />
                     <FormikTextInput
                         name={EMAIL_KEY}
                         label={EMAIL_LABEL}
@@ -92,7 +94,6 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
                         </Button>
                     </div>
 
-                    {/*<ImageProcessing/>*/}
                 </form>)
             }}
 

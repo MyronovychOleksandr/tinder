@@ -32,13 +32,10 @@ export const getMe = () => {
 export const createUser = (data) => {
     const formData = new FormData();
 
-    // Додаємо текстові дані до formData
     Object.keys(data).forEach((key) => {
-        // Якщо значення - масив (як у випадку images або tags), додайте його елементи окремо
         if (Array.isArray(data[key])) {
             data[key].forEach((value, index) => {
                 if (typeof value === 'object' && value !== null) {
-                    // Якщо значення - об'єкт, наприклад, для поля tags
                     Object.keys(value).forEach((nestedKey) => {
                         formData.append(`${key}[${index}][${nestedKey}]`, value[nestedKey]);
                     });
@@ -51,14 +48,12 @@ export const createUser = (data) => {
         }
     });
 
-    // Додаємо файли (зображення) до formData
     if (data.images) {
         data.images.forEach((image, index) => {
-            formData.append(`images[${index}]`, image, image.name);
+            formData.append(`images`, image, image.name);
         });
     }
 
-    // Використовуємо Axios для відправлення запиту
     return instance.post(`/users/create`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',

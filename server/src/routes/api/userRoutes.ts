@@ -13,7 +13,9 @@ import {
 
 import {guard} from "../../helpers/guard";
 import uploadMiddleware from '../../helpers/uploadMiddleware';
+import {MulterMiddleware} from "../../middlewares/multerMiddleware";
 
+const multer = MulterMiddleware.createImageMulterMiddleware();
 const router = express.Router();
 
 router.post("/create", uploadMiddleware.array('images', 3), registrationController);

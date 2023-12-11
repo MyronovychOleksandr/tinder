@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -55,6 +55,7 @@ const ImageCrop = ({ src, onCropComplete }) => {
             );
         });
     };
+
     const onCropCompleted = async () => {
         try {
             const croppedImage = await getCroppedImg();
@@ -63,6 +64,10 @@ const ImageCrop = ({ src, onCropComplete }) => {
             console.error("Error cropping image:", error);
         }
     };
+
+    useEffect(() => {
+        onCropCompleted()
+    }, [])
 
     return (
         <div className="mt-4">
@@ -73,6 +78,7 @@ const ImageCrop = ({ src, onCropComplete }) => {
                 onChange={onCropChange}
                 onImageLoaded={onImageLoaded}
                 onComplete={onCropCompleted}
+                on
                 keepSelection
                 style={{ maxWidth: '100%' }}
             >
