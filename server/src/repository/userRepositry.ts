@@ -106,7 +106,7 @@ class UserRepository {
     async updateUser(id: string, body: IUser, images: string[]) {
         return User.findByIdAndUpdate(
             id,
-            {...body, $push: {images: {$each: images}}},
+            {...body, images},
             {new: true}
         );
     }

@@ -48,7 +48,8 @@ export const registrationController = async (req: Request, res: Response, next: 
                 email: newUser.email,
                 gender: gender,
                 id: newUser.id,
-                images: newUser.images
+                images: newUser.images,
+                location: newUser.location
             },
         });
     } catch (e) {
@@ -148,14 +149,27 @@ export const getMeController = async (req: Request, res: Response, next: NextFun
 
 export const updateUserController = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const images = (req.files as IImage[])?.map((item: any) => {
+            return `${BASE_URL}/uploads/${item.filename}`
+        })
         const userData = req.user;
         const {id} = userData as IUser
-        const user = await UserService.updateUser(id as string, req.body, req.body.images || []);
+        const user = await UserService.updateUser(id as string, req.body, images || []) as IUser;
         if (user) {
             return res.json({
                 status: "success",
                 code: HttpCode.OK,
-                user,
+                user: {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    tags: user.tags,
+                    age: user.age,
+                    email: user.email,
+                    gender: user.gender,
+                    id: user.id,
+                    images: user.images,
+                    location: user.location
+                },
             });
         } else {
             return next({

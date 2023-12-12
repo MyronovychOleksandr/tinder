@@ -20,6 +20,7 @@ import {
 import FormikRadioGroup from "../formik/FormikRadioGroup";
 import FormikSelect from "../formik/FormikSelect";
 import {Button} from "@mui/material";
+import ImageProcessing from "../base/ImageProcessing";
 
 const EditAccountForm = ({initialValues, onSubmit}) => {
     const handleValidateSubmit = (values) => {
@@ -36,7 +37,7 @@ const EditAccountForm = ({initialValues, onSubmit}) => {
         >
             {({errors, touched, handleSubmit, setFieldValue, values, isValid, ...p}) => {
                 return (<form onSubmit={handleSubmit}>
-                    {/*<ImageUploader/>*/}
+                    <ImageProcessing/>
                     <FormikTextInput
                         name={EMAIL_KEY}
                         label={EMAIL_LABEL}
@@ -52,7 +53,6 @@ const EditAccountForm = ({initialValues, onSubmit}) => {
                         label={LAST_NAME_LABEL}
                         placeholder={LAST_NAME_PLACEHOLDER}
                     />
-
                     <FormikTextInput
                         type={"number"}
                         name={AGE_KEY}
@@ -72,11 +72,8 @@ const EditAccountForm = ({initialValues, onSubmit}) => {
                             Submit
                         </Button>
                     </div>
-
-                    {/*<ImageProcessing/>*/}
                 </form>)
             }}
-
         </Formik>
     );
 };

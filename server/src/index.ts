@@ -2,6 +2,7 @@ import express, {Request, Response, NextFunction} from 'express';
 import mongoose from "mongoose"
 import cors from "cors"
 import userRouter from "./routes/api/userRoutes";
+import imageRouter from "./routes/api/imageRoutes";
 import {HttpCode} from "./constatns/httpCodes";
 import bodyParser from "body-parser";
 import path from 'path';
@@ -12,14 +13,15 @@ const app = express();
 const port = process.env.PORT
 const uriDb = process.env.URI_DB as string
 
-app.use('/uploads', express.static(path.join(__dirname, "..", 'uploads')));
 app.use(cors());
+app.use('/uploads', express.static(path.join(__dirname, "..", 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRouter);
+app.use("/api/images", imageRouter);
 
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response) => {
     res.status(HttpCode.NOT_FOUND).json({
         status: "error",
         code: HttpCode.NOT_FOUND,
@@ -28,7 +30,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     });
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, req: Request, res: Response) => {
     err.status = err.status ? err.status : HttpCode.INTERNAL_SERVER_ERROR;
     res.status(err.status).json({
         status: err.status === HttpCode.INTERNAL_SERVER_ERROR ? "fail" : "error",

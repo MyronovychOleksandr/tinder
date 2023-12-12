@@ -16,7 +16,6 @@ const CreateAccount = () => {
             .then(() => {
                 login({email: data.email, password: data.password})
                     .then(({data}) => {
-                        console.log("vv data ", data)
                         const expirationDate = new Date();
                         expirationDate.setTime(expirationDate.getTime() + 60 * 60 * 1000);
                         Cookies.set('token', data.token, { expires: expirationDate });
@@ -30,7 +29,6 @@ const CreateAccount = () => {
 
     return (
         <div>
-
             <CreateAccountForm
                 onSubmit={handleSubmit}
                 initialValues={createAccountInitialValues}

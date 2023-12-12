@@ -25,10 +25,6 @@ export const getMe = () => {
     return instance.get(`/users/me`);
 }
 
-// export const createUser = (data) => {
-//     return instance.post(`/users/create`, data);
-// }
-
 export const createUser = (data) => {
     const formData = new FormData();
 
@@ -49,7 +45,7 @@ export const createUser = (data) => {
     });
 
     if (data.images) {
-        data.images.forEach((image, index) => {
+        data.images.forEach((image) => {
             formData.append(`images`, image, image.name);
         });
     }
@@ -62,5 +58,33 @@ export const createUser = (data) => {
 };
 
 export const editUser = (data) => {
-    return instance.put(`/users/edit`, data);
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+        if (Array.isArray(data[key])) {
+            data[key].forEach((value, index) => {
+                if (typeof value === 'object' && value !== null) {
+                    Object.keys(value).forEach((nestedKey) => {
+                        formData.append(`${key}[${index}][${nestedKey}]`, value[nestedKey]);
+                    });
+                } else {
+                    formData.append(`${key}[${index}]`, value);
+                }
+            });
+        } else {
+            formData.append(key, data[key]);
+        }
+    });
+
+    if (data.images) {
+        data.images.forEach((image) => {
+            formData.append(`images`, image, image.name);
+        });
+    }
+
+    return instance.put(`/users/edit`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
 }

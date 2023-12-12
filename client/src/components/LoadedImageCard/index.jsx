@@ -12,10 +12,12 @@ const styleImage = {
     height: "100%"
 }
 
-const LoadedImageCard = ({url, index, onDeleteImage}) => {
+const LoadedImageCard = ({url, name, index, onDeleteImage}) => {
+
     const handleIconClick = () => {
-        onDeleteImage(index)
+        onDeleteImage(index, name)
     }
+
     return (
         <div style={styleContainer} className={"relative"}>
             <img src={url} alt={""} style={styleImage}/>

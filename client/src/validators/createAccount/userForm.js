@@ -31,7 +31,8 @@ export const editAccountValidationSchema = yup.object().shape({
     email: EMAIL.required('Email is required'),
     age: AGE.required(),
     gender: GENDER.required(),
-    tags: TAG
+    tags: TAG,
+    images: IMAGES
 })
 
 export const editAccountInitialValues = {
@@ -40,5 +41,6 @@ export const editAccountInitialValues = {
     email: "",
     age: 0,
     gender: "",
-    tags: []
+    tags: [],
+    images: []
 }

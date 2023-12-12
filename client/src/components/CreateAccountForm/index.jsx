@@ -45,7 +45,6 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
             enableReinitialize
         >
             {({errors, touched, handleSubmit, setFieldValue, values, isValid, ...p}) => {
-
                 return (<form onSubmit={handleSubmit}>
                     <ImageProcessing
                         index={0}
@@ -70,7 +69,6 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
                         label={LAST_NAME_LABEL}
                         placeholder={LAST_NAME_PLACEHOLDER}
                     />
-
                     <FormikTextInput
                         type={"number"}
                         name={AGE_KEY}
@@ -93,10 +91,8 @@ const CreateAccountForm = ({initialValues, onSubmit}) => {
                             Submit
                         </Button>
                     </div>
-
                 </form>)
             }}
-
         </Formik>
     );
 };

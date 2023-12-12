@@ -13,15 +13,12 @@ import {
 
 import {guard} from "../../helpers/guard";
 import uploadMiddleware from '../../helpers/uploadMiddleware';
-import {MulterMiddleware} from "../../middlewares/multerMiddleware";
 
-const multer = MulterMiddleware.createImageMulterMiddleware();
 const router = express.Router();
 
 router.post("/create", uploadMiddleware.array('images', 3), registrationController);
 router.post("/login", loginController)
 router.get("/", guard, getAllUsersController);
-// router.get("/:userId", getUserByIdController);
 router.get("/me", guard, getMeController);
 router.post("/logout", guard, logoutController);
 router.put("/edit", guard, uploadMiddleware.array('images', 3), updateUserController);
