@@ -88,3 +88,9 @@ export const editUser = (data) => {
         },
     });
 }
+
+export const likeUser = (likedUserId) => {
+    return instance.post(`/users/like`, {
+        likedUserId
+    })
+}

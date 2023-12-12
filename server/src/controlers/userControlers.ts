@@ -99,10 +99,11 @@ export const getAllUsersController = async (req: Request, res: Response, next: N
         const maxDistance = req.query.maxDistance ? Number(req.query.maxDistance) : undefined
         const lon = req.query.lon ? Number(req.query.lon) : undefined
         const lat = req.query.lat ? Number(req.query.lat) : undefined
-
         const coordinates = (lon && lat) ? [lon, lat] : undefined
 
-        const data = await UserService.findUsers(gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance);
+        const user = req.user;
+        const {id: currentUserId} = user as IUser
+        const data = await UserService.findUsers(gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance, currentUserId);
 
         res.json({
             status: "success",

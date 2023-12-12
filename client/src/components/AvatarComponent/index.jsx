@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar} from '@mui/material';
 import {NavLink} from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -6,11 +6,21 @@ import Popover from '@mui/material/Popover';
 import {logout} from "../../services/auth";
 import Cookies from "js-cookie";
 import {useAuth} from "../../contexts/AuthContext";
+import {getMe} from "../../services/users";
 
 const AvatarComponent = () => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [user, setUser] = useState({})
 
     const {updateToken} = useAuth();
+
+    useEffect(() => {
+        getMe()
+            .then(({data}) => {
+                const {user} = data
+                setUser(user)
+            })
+    }, [])
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -38,10 +48,10 @@ const AvatarComponent = () => {
                 className={"flex items-center justify-between mb-4 rounded-3xl hover:bg-red-500 p-2 cursor-pointer relative"}>
                 <div className={"flex items-center"}>
                     <Avatar
-                        src={"https://img.freepik.com/premium-vector/avatar-icon002_750950-52.jpg"}
+                        src={user.images?.[0] || "https://img.freepik.com/premium-vector/avatar-icon002_750950-52.jpg"}
                         className={"mr-2"}
                     />
-                    <div>Account</div>
+                    <div>{user.firstName || "Account"}</div>
                 </div>
                 <div aria-describedby={id} onClick={handleClick}>
                     <KeyboardArrowDownIcon/>

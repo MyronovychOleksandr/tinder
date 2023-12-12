@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const ImageSwiper = ({ images }) => {
+const ImageSwiper = ({images}) => {
     const settings = {
         dots: true,
         infinite: true,
@@ -12,13 +12,18 @@ const ImageSwiper = ({ images }) => {
         slidesToScroll: 1,
     };
     return (
-        <Slider {...settings}>
-            {images.map((image, index) => (
-                <div key={index} className={"w-full h-0 pb-[150%] overflow-hidden relative"}>
-                    <img src={image} alt={`Slide ${index + 1}`} className="absolute top-0 left-0 w-full h-full object-cover" />
-                </div>
-            ))}
-        </Slider>
+        <div style={{width: "300px", height: "450px"}}>
+            <Slider {...settings}>
+                {images?.map((image, index) => (
+                    <div key={index} className={"w-full h-0 pb-[150%] overflow-hidden relative rounded"}>
+                        <img
+                            src={image} alt={`Slide ${index + 1}`}
+                            className="absolute top-0 left-0 w-full h-full object-cover"
+                        />
+                    </div>
+                ))}
+            </Slider>
+        </div>
     );
 };
 

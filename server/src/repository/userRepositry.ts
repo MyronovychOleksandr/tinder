@@ -1,5 +1,6 @@
 import User from "../schemas/userSchemas";
 import {IUser} from "../types/user";
+import mongoose from "mongoose";
 
 class UserRepository {
     async createUser(body: IUser) {
@@ -16,7 +17,8 @@ class UserRepository {
         page: number = 1,
         pageSize: number = 10,
         coordinates?: number[],
-        maxDistance: number = 5
+        maxDistance: number = 5,
+        currentUserId?: string
     ): Promise<{ users: any[], currentPage: number, totalPages: number, pageSize: number, totalUsers: number }> {
         const pipeline: any[] = [];
 
@@ -35,6 +37,10 @@ class UserRepository {
         }
 
         const matchQuery: any = {};
+
+        if (currentUserId) {
+            matchQuery._id = { $ne: new mongoose.Types.ObjectId(currentUserId) };
+        }
 
         if (gender) {
             matchQuery.gender = gender;

@@ -1,19 +1,34 @@
 import React from 'react';
 import ImageSwiper from "../base/Swiper";
 import "./index.css"
+import ActionsCardButtons from "../ActionsCardButtons";
 
-const images = [
-    "https://images.theconversation.com/files/305837/original/file-20191209-90562-nsnsun.jpg?ixlib=rb-1.1.0&rect=284%2C696%2C1934%2C965&q=45&auto=format&w=1356&h=668&fit=crop",
-    "https://defenders.org/sites/default/files/styles/meta_image/public/2023-07/2017.03.22%20-%20Expansive%20Forest%20-%20Nantahala%20National%20Forest%20-%20Blue%20Ridge%20Mountains%20-%20North%20Carolina%20-%20Bill%20Lea.jpg?itok=HiDuRqNl"
-]
-
-const CardsComponent = () => {
+const CardsComponent = ({
+                            user,
+                            onLikeButtonClick,
+                            onCancelButtonClick
+                        }) => {
     return (
         <div className={"cards-component-wrapper"}>
-            <div className={"cards-component-container"}>
-                <ImageSwiper
-                    images={images}
-                />
+            <div className={"cards-component-container flex flex-col items-center"}>
+                <div  style={{width: "300px", height: "450px"}} className={"mb-16 flex justify-center relative"}>
+                    <ImageSwiper
+                        images={user.images}
+                    />
+                    <div className={'absolute text-white bottom-0 left-0 p-4'}>
+                        <p className={"text-3xl font-bold"}>{user.firstName} {user.age}</p>
+                        {user.tags.map((item) => {
+                           return <span className={"inline-block"}>{item.label} </span>
+                        })}
+                    </div>
+                </div>
+                <div className={"flex justify-center px-4"}>
+                    <ActionsCardButtons
+                        userId={user._id}
+                        onLikeButtonClick={onLikeButtonClick}
+                        onCancelButtonClick={onCancelButtonClick}
+                    />
+                </div>
             </div>
         </div>
     );

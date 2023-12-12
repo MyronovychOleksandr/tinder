@@ -15,9 +15,10 @@ class UserService {
         page?: number,
         pageSize?: number,
         coordinates?: number[],
-        maxDistance?: number
+        maxDistance?: number,
+        currentUserId?: string
     ) {
-        const {users, totalPages, currentPage, totalUsers, pageSize: pageLimit} = await UserRepository.findUsers(gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance);
+        const {users, totalPages, currentPage, totalUsers, pageSize: pageLimit} = await UserRepository.findUsers(gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance, currentUserId);
 
         const usersList = users.map((item: any) => {
             return {...item.users}
