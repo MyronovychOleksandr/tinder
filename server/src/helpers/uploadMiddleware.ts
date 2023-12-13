@@ -25,7 +25,6 @@ const upload: Multer = multer({
     storage: storage,
     fileFilter: fileFilter,
     dest: 'uploads/'
-    // limits: { fileSize: 1024 * 1024 * 5 }, // Максимальний розмір файлу: 5 MB
 });
 
 export default upload;

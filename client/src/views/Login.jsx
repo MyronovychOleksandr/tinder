@@ -2,9 +2,8 @@ import React from 'react';
 import LoginForm from "../components/LoginForm";
 import {login} from "../services/auth";
 import {toast} from "react-toastify";
-import Cookies from 'js-cookie';
 import {useAuth} from "../contexts/AuthContext";
-import { redirect } from "react-router-dom";
+import {handleAuthentication} from "../utils/handleAuthentication";
 
 const Login = () => {
     const {updateToken} = useAuth();
@@ -12,11 +11,7 @@ const Login = () => {
     const handleSubmit = (data) => {
         login(data)
             .then(({data}) => {
-                const expirationDate = new Date();
-                expirationDate.setTime(expirationDate.getTime() + 60 * 60 * 1000);
-                Cookies.set('token', data.token, { expires: expirationDate });
-                updateToken(data.token)
-                redirect("/list")
+                handleAuthentication(data.token, updateToken)
             })
             .catch((e) => toast.error(e.message))
     }

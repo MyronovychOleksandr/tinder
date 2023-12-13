@@ -4,9 +4,8 @@ import {createUser} from "../services/users";
 import {createAccountInitialValues} from "../validators/createAccount/userForm";
 import {toast} from "react-toastify";
 import {login} from "../services/auth";
-import Cookies from "js-cookie";
-import {redirect} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext";
+import {handleAuthentication} from "../utils/handleAuthentication";
 
 const CreateAccount = () => {
     const {updateToken} = useAuth();
@@ -16,15 +15,10 @@ const CreateAccount = () => {
             .then(() => {
                 login({email: data.email, password: data.password})
                     .then(({data}) => {
-                        const expirationDate = new Date();
-                        expirationDate.setTime(expirationDate.getTime() + 60 * 60 * 1000);
-                        Cookies.set('token', data.token, { expires: expirationDate });
-                        updateToken(data.token)
-                        redirect("/list")
+                        handleAuthentication(data.token, updateToken)
                     })
             })
             .catch((e) => toast.error(e.message))
-
     }
 
     return (

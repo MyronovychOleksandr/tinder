@@ -4,12 +4,13 @@ import {HttpCode} from "../constatns/httpCodes";
 import {IUser} from "../types/user";
 import {NextFunction, Request, Response} from "express";
 import {IImage} from "../types/image";
+
 const BASE_URL = process.env.BASE_URL
 
 export const registrationController = async (req: Request, res: Response, next: NextFunction) => {
     const {firstName, lastName, age, tags, email, gender, password, coordinates} = req.body;
 
-    const images = (req.files as IImage[])?.map((item: any) => {
+    const images = (req.files as IImage[])?.map((item: IImage) => {
         return `${BASE_URL}/uploads/${item.filename}`
     })
 
@@ -103,7 +104,7 @@ export const getAllUsersController = async (req: Request, res: Response, next: N
 
         const user = req.user;
         const {id: currentUserId} = user as IUser
-        const data = await UserService.findUsers(gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance, currentUserId);
+        const data = await UserService.findUsers({gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance, currentUserId});
 
         res.json({
             status: "success",
@@ -135,12 +136,6 @@ export const getMeController = async (req: Request, res: Response, next: NextFun
                     images: user.images,
                     location: user.location
                 },
-            });
-        } else {
-            return next({
-                status: HttpCode.NOT_FOUND,
-                message: "Not found contact",
-                data: "Not Found",
             });
         }
     } catch (error) {
@@ -187,8 +182,8 @@ export const updateUserController = async (req: Request, res: Response, next: Ne
 export const likeUserController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userData = req.user;
-        const { id } = userData as IUser;
-        const { likedUserId } = req.body;
+        const {id} = userData as IUser;
+        const {likedUserId} = req.body;
 
         await UserService.likeUser(id as string, likedUserId);
 
@@ -204,8 +199,8 @@ export const likeUserController = async (req: Request, res: Response, next: Next
 export const unlikeUserController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userData = req.user;
-        const { id } = userData as IUser;
-        const { unlikedUserId } = req.body;
+        const {id} = userData as IUser;
+        const {unlikedUserId} = req.body;
 
         await UserService.unlikeUser(id as string, unlikedUserId);
 
@@ -221,7 +216,7 @@ export const unlikeUserController = async (req: Request, res: Response, next: Ne
 export const getMatchedUsersController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userData = req.user;
-        const { id } = userData as IUser;
+        const {id} = userData as IUser;
 
         const matchedUsers = await UserService.getMatchedUsers(id as string);
 

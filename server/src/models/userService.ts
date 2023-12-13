@@ -1,24 +1,24 @@
 import UserRepository from "../repository/userRepositry";
-import {IUser} from "../types/user";
+import {IGetUsersParams, IUser} from "../types/user";
 
 class UserService {
     async createUser(body: IUser) {
         return await UserRepository.createUser(body);
     }
 
-    async findUsers(
-        gender?: string,
-        minAge?: number,
-        maxAge?: number,
-        tags?: string[],
-        search?: string,
-        page?: number,
-        pageSize?: number,
-        coordinates?: number[],
-        maxDistance?: number,
-        currentUserId?: string
-    ) {
-        const {users, totalPages, currentPage, totalUsers, pageSize: pageLimit} = await UserRepository.findUsers(gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance, currentUserId);
+    async findUsers({
+                        gender,
+                        minAge,
+                        maxAge,
+                        tags,
+                        search,
+                        page,
+                        pageSize,
+                        coordinates,
+                        maxDistance,
+                        currentUserId
+                    }: IGetUsersParams) {
+        const {users, totalPages, currentPage, totalUsers, pageSize: pageLimit} = await UserRepository.findUsers({gender, minAge, maxAge, tags, search, page, pageSize, coordinates, maxDistance, currentUserId});
 
         const usersList = users.map((item: any) => {
             return {...item.users}

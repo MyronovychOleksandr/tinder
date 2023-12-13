@@ -1,5 +1,8 @@
 export const DISTANCE_PLACEHOLDER = "Select distance..."
 
+export const MIN_AGE = 18
+export const MAX_DEFAULT_AGE_RANGE_VALUE = 22
+
 export const DISTANCE_OPTIONS = [
     {
         label: "5 km",

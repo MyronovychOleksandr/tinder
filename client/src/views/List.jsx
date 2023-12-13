@@ -5,18 +5,18 @@ import TextField from "../components/base/TextField";
 import {getAllUsers} from "../services/users";
 import {toast} from "react-toastify";
 import RadioGroup from "../components/base/RadioGroup";
-import {GENDER_OPTIONS_FILTER, TAG_PLACEHOLDER} from "../constants/createAccount";
+import {GENDER_OPTIONS_FILTER, MIN_AGE, TAG_PLACEHOLDER} from "../constants/createAccount";
 import {TAGS_LIST} from "../constants/tags";
 import SelectComponent from "../components/base/Select";
 import {Button} from "@mui/material";
 import {getTagsQueryString} from "../utils/getTagsQueryString";
 import Pagination from "@mui/material/Pagination";
 import {useGeolocated} from "react-geolocated";
-import {DISTANCE_OPTIONS, DISTANCE_PLACEHOLDER} from "../constants/list";
+import {DISTANCE_OPTIONS, DISTANCE_PLACEHOLDER, MAX_DEFAULT_AGE_RANGE_VALUE} from "../constants/list";
 
 const List = () => {
     const [users, setUsers] = useState([])
-    const [ageRange, setAgeRange] = useState([18, 22])
+    const [ageRange, setAgeRange] = useState([MIN_AGE, MAX_DEFAULT_AGE_RANGE_VALUE])
     const [gender, setGender] = useState('')
     const [search, setSearch] = useState('')
     const [lon, setLon] = useState('')
@@ -46,9 +46,10 @@ const List = () => {
 
     const handleGetUsers = async () => {
         try {
+            const { 0: minAge, 1: maxAge } = ageRange;
             const params = {
-                minAge: ageRange[0],
-                maxAge: ageRange[1],
+                minAge,
+                maxAge,
                 tags: getTagsQueryString(tags),
                 pageSize: 3,
                 search,
@@ -145,7 +146,7 @@ const List = () => {
 
             {
                 users?.map((item) => {
-                    return <p><span>{item?.firstName}</span> <span>{item?.age}</span></p>
+                    return <p key={item._id}><span>{item?.firstName}</span> <span>{item?.age}</span></p>
                 })
             }
             {!!totalPages && <div className={"flex justify-center"}>

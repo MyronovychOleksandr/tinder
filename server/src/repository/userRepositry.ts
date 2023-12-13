@@ -1,6 +1,21 @@
 import User from "../schemas/userSchemas";
-import {IUser} from "../types/user";
+import {IGetUsersParams, IUser} from "../types/user";
 import mongoose from "mongoose";
+import {DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE} from "../constatns";
+
+interface IMatchQuery {
+    _id?: { $ne: mongoose.Types.ObjectId };
+    gender?: string;
+    age?: {
+        $gte?: number;
+        $lte?: number;
+    };
+    tags?: { $elemMatch: { value: { $in: string[] } } };
+    $or?: Array<{
+        firstName?: { $regex: string; $options: 'i' };
+        lastName?: { $regex: string; $options: 'i' };
+    }>;
+}
 
 class UserRepository {
     async createUser(body: IUser) {
@@ -8,18 +23,18 @@ class UserRepository {
         return user.save();
     }
 
-    async findUsers(
-        gender?: string,
-        minAge?: number,
-        maxAge?: number,
-        tags?: string[],
-        search?: string,
-        page: number = 1,
-        pageSize: number = 10,
-        coordinates?: number[],
-        maxDistance: number = 5,
-        currentUserId?: string
-    ): Promise<{ users: any[], currentPage: number, totalPages: number, pageSize: number, totalUsers: number }> {
+    async findUsers({
+                        gender,
+                        minAge,
+                        maxAge,
+                        tags,
+                        search,
+                        page= DEFAULT_PAGE_NUMBER,
+                        pageSize= DEFAULT_PAGE_SIZE,
+                        coordinates,
+                        maxDistance,
+                        currentUserId
+                    }: IGetUsersParams): Promise<{ users: IUser[], currentPage: number, totalPages: number, pageSize: number, totalUsers: number }> {
         const pipeline: any[] = [];
 
         if (coordinates && maxDistance) {
@@ -36,7 +51,7 @@ class UserRepository {
             });
         }
 
-        const matchQuery: any = {};
+        const matchQuery: IMatchQuery = {};
 
         if (currentUserId) {
             matchQuery._id = { $ne: new mongoose.Types.ObjectId(currentUserId) };

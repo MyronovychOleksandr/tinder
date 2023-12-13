@@ -27,7 +27,7 @@ const MatchedUsers = () => {
                 <TableBody>
                     {
                         users?.map((item) => {
-                            return <TableRow>
+                            return <TableRow key={item._id}>
                                 <TableCell>{item?.firstName}</TableCell>
                                 <TableCell>{item?.age}</TableCell>
                             </TableRow>
